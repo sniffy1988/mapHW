@@ -20,7 +20,6 @@ angular.module('myApp')
                 alert(err);
             });
         }
-        _getCoords();
     })
     .directive('map', function () {
         return {
