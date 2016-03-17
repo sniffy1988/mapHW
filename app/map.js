@@ -31,7 +31,11 @@ angular.module('myApp')
                     zoom: scope.zoom,
                 };
                 var map = new google.maps.Map(document.getElementById(attrs.id), mapProp);
-                map.setCenter(new google.maps.LatLng(scope.center.lat,scope.center.lng))
+                var timeout = setInterval(function(){
+                    map.setCenter(new google.maps.LatLng(scope.center.lat,scope.center.lng));
+                }, 1000);
+
+
             }
         }
     });
