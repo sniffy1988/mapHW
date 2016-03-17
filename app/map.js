@@ -1,22 +1,26 @@
 angular.module('myApp')
-    .controller('mapCtrl', function () {
+    .controller('mapCtrl', function ($q) {
         var mapC = this;
-        mapC.zoom = 13;
-        mapC.center = {
+        mapC.mapProps = {
             lat: 51.508742,
-            lng: -0.120850
-        };
+            lng: -0.120850,
+            zoom: 13
+        }
+        function _getCoords (){
+            var defer = $q.defer();
+            navigator.geolocation.getCurrentPosition(defer.resolve, defer.reject);
+            return defer.promise;
+        }
         mapC.getCoords = function(){
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(showPosition);
-            } else {
-                alert("Geolocation is not supported by this browser.");
-            }
+            var promice = _getCoords();
+            promice.then(function(position){
+                mapC.mapProps.lat = position.coords.latitude;
+                mapC.mapProps.lng = position.coords.longitude;
+            }).catch(function(err){
+                alert(err);
+            });
         }
-        function showPosition(position){
-            mapC.center.lat = position.coords.latitude;
-            mapC.center.lng = position.coords.longitude;
-        }
+        _getCoords();
     })
     .directive('map', function () {
         return {
@@ -31,7 +35,8 @@ angular.module('myApp')
                     zoom: 5,
                 };
                 var map = new google.maps.Map(document.getElementById(attrs.id), mapProp);
-                scope.$watch(function(){
+                scope.$watchCollection('center', function(){
+                    console.log(scope.zoom);
                     map.setCenter(new google.maps.LatLng(scope.center.lat,scope.center.lng));
                     map.setZoom(parseInt(scope.zoom));
                 })
