@@ -1,5 +1,5 @@
 angular.module('myApp')
-    .controller('mapCtrl', function ($scope) {
+    .controller('mapCtrl', function () {
         var mapC = this;
         mapC.zoom = 13;
         mapC.center = {
@@ -18,7 +18,7 @@ angular.module('myApp')
             mapC.center.lng = position.coords.longitude;
         }
     })
-    .directive('map', function ($interval) {
+    .directive('map', function () {
         return {
             restrict: 'E',
             template: '',
@@ -31,12 +31,10 @@ angular.module('myApp')
                     zoom: 5,
                 };
                 var map = new google.maps.Map(document.getElementById(attrs.id), mapProp);
-                var timeout = $interval(function(){
+                scope.$watch(function(){
                     map.setCenter(new google.maps.LatLng(scope.center.lat,scope.center.lng));
                     map.setZoom(parseInt(scope.zoom));
-                }, 1000);
-
-
+                })
             }
         }
     });
