@@ -35,7 +35,6 @@ angular.module('myApp')
                 };
                 var map = new google.maps.Map(document.getElementById(attrs.id), mapProp);
                 scope.$watchCollection('center', function(){
-                    console.log(scope.zoom);
                     map.setCenter(new google.maps.LatLng(scope.center.lat,scope.center.lng));
                     map.setZoom(parseInt(scope.zoom));
                 })
