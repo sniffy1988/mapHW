@@ -30,6 +30,8 @@
 </style>
 <map id="map" center = 'mapC.center' zoom="mapC.zoom"></map>
 <button ng-click="mapC.getCoords()">Get current coordinates</button>
+<input type="range" min="1" max="18"ng-model="mapC.zoom">
+<span>Zoom : {{mapC.zoom}}</span>
 <!--[if lt IE 7]>
 <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade
     your browser</a> to improve your experience.</p>
